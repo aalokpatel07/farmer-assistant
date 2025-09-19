@@ -13,7 +13,7 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-secret-key-change-in-production')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///farmers.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///farmers.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -882,4 +882,7 @@ def create_tables():
 if __name__ == '__main__':
     create_tables()
     app.run(debug=True)
+# Add at the bottom of app.py
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
 
