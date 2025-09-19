@@ -1,0 +1,83 @@
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+}
+
+.card {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    border: none;
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.weather-card {
+    background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%);
+    color: white;
+    border-radius: 15px;
+}
+
+.disease-card {
+    border-left: 5px solid;
+}
+
+.disease-high {
+    border-left-color: #dc3545;
+}
+
+.disease-medium {
+    border-left-color: #ffc107;
+}
+
+.disease-low {
+    border-left-color: #28a745;
+}
+
+.product-card .card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+.cart-item {
+    border-bottom: 1px solid #eee;
+    padding: 1rem 0;
+}
+
+.order-card {
+    border-left: 4px solid #28a745;
+}
+
+.order-status {
+    font-weight: bold;
+}
+
+.status-Pending {
+    color: #ffc107;
+}
+
+.status-Ordered {
+    color: #17a2b8;
+}
+
+.status-Shipped {
+    color: #6610f2;
+}
+
+.status-Delivered {
+    color: #28a745;
+}
+
+.status-Cancelled {
+    color: #dc3545;
+}

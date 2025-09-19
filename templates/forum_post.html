@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <!-- Main Post -->
+            <div class="card mb-4">
+                <div class="card-header bg-light">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="card-title mb-0">{{ post.title }}</h4>
+                        <span class="badge bg-primary">{{ post.category|title }}</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ post.content }}</p>
+                    
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <small class="text-muted">
+                            <i class="fas fa-user me-1"></i>By {{ post.author.username }}
+                            <i class="fas fa-clock ms-3 me-1"></i>{{ post.date_posted.strftime('%d %b %Y at %H:%M') }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reply Form -->
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h6 class="card-title mb-0">
+                        <i class="fas fa-reply me-2"></i>Post a Reply
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('add_comment', post_id=post.id) }}">
+                        <div class="mb-3">
+                            <textarea class="form-control" id="content" name="content" 
+                                      rows="4" placeholder="Write your reply..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-paper-plane me-2"></i>Post Reply
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Comments -->
+            <h5 class="mb-3">
+                <i class="fas fa-comments me-2"></i>Replies ({{ post.comments|length }})
+            </h5>
+
+            {% if post.comments %}
+                {% for comment in post.comments %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <p class="card-text">{{ comment.content }}</p>
+                        
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">
+                                <i class="fas fa-user me-1"></i>By {{ comment.author.username }}
+                                <i class="fas fa-clock ms-3 me-1"></i>{{ comment.date_posted.strftime('%d %b %Y at %H:%M') }}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-comment-slash fa-2x text-muted mb-3"></i>
+                    <p class="text-muted">No replies yet. Be the first to reply!</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-md-4">
+            <!-- Related Discussions -->
+            <div class="card mb-4">
+                <div class="card-header bg-info text-white">
+                    <h6 class="card-title mb-0">
+                        <i class="fas fa-link me-2"></i>Related Discussions
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <small>Similar crop discussions</small>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <small>Weather-related topics</small>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Back to Forum -->
+            <div class="card">
+                <div class="card-body text-center">
+                    <a href="{{ url_for('forum') }}" class="btn btn-outline-primary w-100">
+                        <i class="fas fa-arrow-left me-2"></i>Back to Forum
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

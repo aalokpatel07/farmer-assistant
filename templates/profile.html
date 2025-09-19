@@ -1,0 +1,140 @@
+ {% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-4">Profile Settings</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5 class="card-title mb-0">Personal Information</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('profile') }}">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" value="{{ user.username }}" disabled>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" value="{{ user.email }}" disabled>
+                        </div>
+                    </div>
+                    
+                    <h5 class="mt-4 mb-3">Farm Details</h5>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="farm_location" class="form-label">Farm Location</label>
+                            <input type="text" class="form-control" id="farm_location" name="farm_location" 
+                                   value="{{ user.farm_location if user.farm_location else '' }}" 
+                                   placeholder="Enter your farm location">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="farm_size" class="form-label">Farm Size (acres)</label>
+                            <input type="number" class="form-control" id="farm_size" name="farm_size" 
+                                   value="{{ user.farm_size if user.farm_size else '' }}" 
+                                   placeholder="Enter farm size in acres">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="crops" class="form-label">Main Crops</label>
+                        <textarea class="form-control" id="crops" name="crops" rows="3" 
+                                  placeholder="List the main crops you grow">{{ user.crops if user.crops else '' }}</textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-success">Save Changes</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card mt-4">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="card-title mb-0">Change Password</h5>
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="current_password" class="form-label">Current Password</label>
+                        <input type="password" class="form-control" id="current_password">
+                    </div>
+                    <div class="mb-3">
+                        <label for="new_password" class="form-label">New Password</label>
+                        <input type="password" class="form-control" id="new_password">
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirm_password" class="form-label">Confirm New Password</label>
+                        <input type="password" class="form-control" id="confirm_password">
+                    </div>
+                    <button type="submit" class="btn btn-warning">Update Password</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="card-title mb-0">Account Information</h5>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-3">
+                    <i class="fas fa-user-circle fa-5x text-muted"></i>
+                </div>
+                <table class="table">
+                    <tr>
+                        <th>Username:</th>
+                        <td>{{ user.username }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email:</th>
+                        <td>{{ user.email }}</td>
+                    </tr>
+                    <tr>
+                        <th>Member since:</th>
+                        <td>{{ user.created_at.strftime('%B %d, %Y') }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <div class="card mt-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="card-title mb-0">Notification Settings</h5>
+            </div>
+            <div class="card-body">
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" id="weatherAlerts" checked>
+                    <label class="form-check-label" for="weatherAlerts">Weather Alerts</label>
+                </div>
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" id="diseaseAlerts" checked>
+                    <label class="form-check-label" for="diseaseAlerts">Disease Alerts</label>
+                </div>
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" id="productUpdates">
+                    <label class="form-check-label" for="productUpdates">Product Updates</label>
+                </div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="newsletter" checked>
+                    <label class="form-check-label" for="newsletter">Monthly Newsletter</label>
+                </div>
+                <button class="btn btn-primary btn-sm w-100 mt-3">Save Preferences</button>
+            </div>
+        </div>
+        
+        <div class="card mt-4">
+            <div class="card-header bg-danger text-white">
+                <h5 class="card-title mb-0">Danger Zone</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Once you delete your account, there is no going back. Please be certain.</p>
+                <div class="d-grid">
+                    <button class="btn btn-outline-danger">Delete Account</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

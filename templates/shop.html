@@ -1,0 +1,180 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <!-- Sidebar with Categories -->
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-filter me-2"></i>Categories
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        <a href="{{ url_for('shop', category='all') }}" 
+                           class="list-group-item list-group-item-action {% if current_category == 'all' %}active{% endif %}">
+                            All Products
+                        </a>
+                        {% for category in categories %}
+                        <a href="{{ url_for('shop', category=category) }}" 
+                           class="list-group-item list-group-item-action {% if current_category == category %}active{% endif %}">
+                            {{ category }}
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="card mt-3">
+                <div class="card-header bg-info text-white">
+                    <h6 class="card-title mb-0">
+                        <i class="fas fa-chart-bar me-2"></i>Quick Stats
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <small class="text-muted">
+                        {{ products|length }} products available<br>
+                        {{ categories|length }} categories
+                    </small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="col-md-9">
+            <!-- Search and Filter Bar -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h4 class="mb-0">
+                                {% if current_category == 'all' %}
+                                    All Products
+                                {% else %}
+                                    {{ current_category }} Products
+                                {% endif %}
+                            </h4>
+                            <small class="text-muted">Browse our agricultural products</small>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <div class="btn-group">
+                                <button class="btn btn-outline-secondary" disabled>
+                                    <i class="fas fa-sort me-1"></i>Sort
+                                </button>
+                                <button class="btn btn-outline-secondary" disabled>
+                                    <i class="fas fa-filter me-1"></i>Filter
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Grid (Hidden by default) -->
+            <div class="row" id="productsGrid" style="display: none;">
+                {% for product in products %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 product-card">
+                        <img src="{{ url_for('static', filename='images/' + product.image) }}" 
+                             class="card-img-top" alt="{{ product.name }}" style="height: 200px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text text-muted small">{{ product.description[:100] }}...</p>
+                            <h4 class="text-primary">{{ product.price|inr }}</h4>
+                        </div>
+                        <div class="card-footer bg-white">
+                            <a href="{{ url_for('add_to_cart', product_id=product.id) }}" 
+                               class="btn btn-success w-100">
+                                <i class="fas fa-cart-plus me-2"></i>Add to Cart
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="col-12">
+                    <div class="text-center py-5">
+                        <i class="fas fa-seedling fa-3x text-muted mb-3"></i>
+                        <h5>No products found</h5>
+                        <p class="text-muted">Try selecting a different category</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Welcome Message (Shown by default) -->
+            <div class="card" id="welcomeMessage">
+                <div class="card-body text-center py-5">
+                    <i class="fas fa-store fa-4x text-primary mb-3"></i>
+                    <h3>Welcome to Our Farm Store</h3>
+                    <p class="text-muted">Select a category from the sidebar to browse products</p>
+                    <div class="mt-4">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="p-3 border rounded">
+                                    <i class="fas fa-truck-loading fa-2x text-success mb-2"></i>
+                                    <h6>Fast Delivery</h6>
+                                    <small class="text-muted">Across India</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="p-3 border rounded">
+                                    <i class="fas fa-rupee-sign fa-2x text-warning mb-2"></i>
+                                    <h6>Best Prices</h6>
+                                    <small class="text-muted">Farmers First</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="p-3 border rounded">
+                                    <i class="fas fa-headset fa-2x text-info mb-2"></i>
+                                    <h6>Support</h6>
+                                    <small class="text-muted">24/7 Help</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.product-card {
+    transition: transform 0.2s;
+}
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+.list-group-item.active {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+/* Ensure proper scrolling */
+.col-md-9 {
+    height: calc(100vh - 100px);
+    overflow-y: auto;
+}
+.sticky-top {
+    height: fit-content;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const category = urlParams.get('category');
+    
+    if (category) {
+        document.getElementById('productsGrid').style.display = 'flex';
+        document.getElementById('welcomeMessage').style.display = 'none';
+    }
+});
+</script>
+{% endblock %}

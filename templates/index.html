@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero-section bg-success text-white py-5 rounded mb-4">
+    <div class="container ">
+        <div class="row align-items-center justify-between p-6">
+            <div class="col-md-6">
+                <h1 class="display-4 fw-bold">Welcome to Farmer's Assistant</h1>
+                <p class="lead">Your one-stop solution for all farming needs - weather forecasts, disease alerts, and quality fertilizers.</p>
+                {% if not current_user.is_authenticated %}
+                <a href="{{ url_for('register') }}" class="btn btn-light btn-lg mt-3">Get Started <i class="fas fa-arrow-right"></i></a>
+                {% endif %}
+            </div>
+            <div class="col-md-3">
+                <img src="{{ url_for('static', filename='images/farmer-hero.jpg') }}" class="img-fluid rounded-full"  alt="Happy Farmer">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-cloud-sun display-1 text-primary mb-3"></i>
+                <h3 class="card-title">Weather Forecast</h3>
+                <p class="card-text">Get accurate weather predictions for your farm location to plan your activities.</p>
+                <a href="{{ url_for('weather') }}" class="btn btn-outline-primary">Check Weather</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-bug display-1 text-danger mb-3"></i>
+                <h3 class="card-title">Disease Alerts</h3>
+                <p class="card-text">Stay updated on potential disease outbreaks and preventive measures for your crops.</p>
+                <a href="{{ url_for('diseases') }}" class="btn btn-outline-danger">View Alerts</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-seedling display-1 text-success mb-3"></i>
+                <h3 class="card-title">Fertilizer Shop</h3>
+                <p class="card-text">Browse and purchase high-quality fertilizers tailored to your crop needs.</p>
+                <a href="{{ url_for('shop') }}" class="btn btn-outline-success">Go to Shop</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-lg-8 mx-auto">
+        <h2 class="text-center mb-4">How It Works</h2>
+        <div class="accordion" id="howItWorks">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#step1">
+                        Step 1: Create an Account
+                    </button>
+                </h2>
+                <div id="step1" class="accordion-collapse collapse show" data-bs-parent="#howItWorks">
+                    <div class="accordion-body">
+                        Register with your details and farm information to get personalized recommendations.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#step2">
+                        Step 2: Set Your Location
+                    </button>
+                </h2>
+                <div id="step2" class="accordion-collapse collapse" data-bs-parent="#howItWorks">
+                    <div class="accordion-body">
+                        Provide your farm location to receive accurate weather forecasts and localized disease alerts.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#step3">
+                        Step 3: Access Farming Tools
+                    </button>
+                </h2>
+                <div id="step3" class="accordion-collapse collapse" data-bs-parent="#howItWorks">
+                    <div class="accordion-body">
+                        Check weather forecasts, view disease alerts, and shop for fertilizers tailored to your needs.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

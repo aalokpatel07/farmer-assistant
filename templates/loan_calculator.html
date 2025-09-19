@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title mb-0">
+                        <i class="fas fa-calculator me-2"></i>Agricultural Loan Calculator
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('loan_calculator') }}">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="loan_amount" class="form-label">Loan Amount (₹)</label>
+                                <input type="number" class="form-control" id="loan_amount" name="loan_amount" 
+                                       value="{{ loan_amount }}" min="10000" max="10000000" step="1000" required>
+                                <div class="form-text">Enter loan amount in rupees</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="interest_rate" class="form-label">Interest Rate (%)</label>
+                                <input type="number" class="form-control" id="interest_rate" name="interest_rate" 
+                                       value="{{ interest_rate }}" min="1" max="20" step="0.1" required>
+                                <div class="form-text">Annual interest rate</div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label for="loan_tenure" class="form-label">Loan Tenure (Years)</label>
+                                <input type="number" class="form-control" id="loan_tenure" name="loan_tenure" 
+                                       value="{{ loan_tenure }}" min="1" max="30" required>
+                                <div class="form-text">Loan duration in years</div>
+                            </div>
+                            <div class="col-md-6 d-flex align-items-end">
+                                <button type="submit" class="btn btn-success w-100">
+                                    <i class="fas fa-calculate me-2"></i>Calculate EMI
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    {% if emi > 0 %}
+                    <div class="results-section mt-4 p-4 bg-light rounded">
+                        <h4 class="text-center mb-4">Loan Calculation Results</h4>
+                        
+                        <div class="row text-center">
+                            <div class="col-md-4 mb-3">
+                                <div class="p-3 bg-white rounded shadow-sm">
+                                    <h6 class="text-primary">Monthly EMI</h6>
+                                    <h3 class="text-primary">{{ "₹{:,.0f}".format(emi) }}</h3>
+                                    <small class="text-muted">Per month</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="p-3 bg-white rounded shadow-sm">
+                                    <h6 class="text-success">Total Interest</h6>
+                                    <h3 class="text-success">{{ "₹{:,.0f}".format(total_interest) }}</h3>
+                                    <small class="text-muted">Interest payable</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="p-3 bg-white rounded shadow-sm">
+                                    <h6 class="text-info">Total Amount</h6>
+                                    <h3 class="text-info">{{ "₹{:,.0f}".format(total_amount) }}</h3>
+                                    <small class="text-muted">Principal + Interest</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <h5 class="text-center">Payment Breakdown</h5>
+                            <div class="progress mb-2" style="height: 25px;">
+                                <div class="progress-bar bg-success" style="width: {{ (loan_amount/total_amount*100)|round(1) }}%">
+                                    Principal: {{ "₹{:,.0f}".format(loan_amount) }}
+                                </div>
+                                <div class="progress-bar bg-warning" style="width: {{ (total_interest/total_amount*100)|round(1) }}%">
+                                    Interest: {{ "₹{:,.0f}".format(total_interest) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-info mt-3">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong>Note:</strong> This calculation is for estimation purposes only. 
+                            Actual loan terms may vary based on bank policies and your credit profile.
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <div class="mt-4">
+                        <h5>Agricultural Loan Schemes</h5>
+                        <div class="list-group">
+                            <div class="list-group-item">
+                                <h6 class="mb-1">Kisan Credit Card (KCC)</h6>
+                                <small class="text-muted">Interest: 4-7% | Term: Up to 5 years</small>
+                            </div>
+                            <div class="list-group-item">
+                                <h6 class="mb-1">PM Kisan Maan Dhan Yojana</h6>
+                                <small class="text-muted">Subsidized rates for small farmers</small>
+                            </div>
+                            <div class="list-group-item">
+                                <h6 class="mb-1">NABARD Schemes</h6>
+                                <small class="text-muted">Various agricultural development loans</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

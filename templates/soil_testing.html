@@ -1,0 +1,266 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h2 class="mb-4">Soil Testing</h2>
+        
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>
+            Soil testing helps you understand your soil's health and get recommendations 
+            for improving crop yield and quality.
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Soil Info -->
+                <div class="card mb-4">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="card-title mb-0">Your Soil Information</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if user and user.soil_type %}
+                        <div class="text-center mb-4">
+                            <i class="fas fa-vial fa-3x text-success mb-3"></i>
+                            <h4>Soil Type: {{ user.soil_type|title }}</h4>
+                           <p class="text-muted">Last updated: {{ now.strftime('%d %B, %Y') }}</p>
+                        </div>
+                        {% else %}
+                        <div class="text-center py-4">
+                            <i class="fas fa-vial fa-3x text-muted mb-3"></i>
+                            <h5>No Soil Data Available</h5>
+                            <p class="text-muted">Please update your soil type in your profile to get personalized recommendations.</p>
+                            <a href="{{ url_for('profile') }}" class="btn btn-success">
+                                <i class="fas fa-user-edit me-2"></i>Update Profile
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Soil Testing Centers -->
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0">Soil Testing Centers</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group">
+                            <div class="list-group-item">
+                                <h6 class="mb-1">Krishi Vigyan Kendra (KVK)</h6>
+                                <p class="mb-1 text-muted">Government approved soil testing</p>
+                                <small>Free testing available</small>
+                            </div>
+                            <div class="list-group-item">
+                                <h6 class="mb-1">Agricultural University Labs</h6>
+                                <p class="mb-1 text-muted">Comprehensive soil analysis</p>
+                                <small>Nominal charges apply</small>
+                            </div>
+                            <div class="list-group-item">
+                                <h6 class="mb-1">Private Testing Labs</h6>
+                                <p class="mb-1 text-muted">Quick results with detailed reports</p>
+                                <small>Paid service</small>
+                            </div>
+                        </div>
+                        <div class="mt-3 text-center">
+                            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#mapModal">
+                                <i class="fas fa-map-marker-alt me-2"></i>Find Nearest Center
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommendations & Scheduling -->
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="card-title mb-0">Soil Recommendations</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if recommendations %}
+                        <h6>Recommended Practices for {{ user.soil_type|title }} Soil:</h6>
+                        <ul class="list-group mb-3">
+                            {% for recommendation in recommendations %}
+                            <li class="list-group-item">
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                {{ recommendation }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        <div class="text-center py-4">
+                            <i class="fas fa-clipboard-list fa-3x text-muted mb-3"></i>
+                            <p>No recommendations available. Please set your soil type in your profile.</p>
+                        </div>
+                        {% endif %}
+
+                        <h6>General Soil Improvement Tips:</h6>
+                        <div class="accordion" id="soilTips">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#tip1">
+                                        Organic Matter Addition
+                                    </button>
+                                </h2>
+                                <div id="tip1" class="accordion-collapse collapse show" data-bs-parent="#soilTips">
+                                    <div class="accordion-body">
+                                        Add compost, manure, or green manure to improve soil structure and fertility.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tip2">
+                                        pH Balancing
+                                    </button>
+                                </h2>
+                                <div id="tip2" class="accordion-collapse collapse" data-bs-parent="#soilTips">
+                                    <div class="accordion-body">
+                                        Use lime to raise pH or sulfur to lower pH based on soil test results.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tip3">
+                                        Crop Rotation
+                                    </button>
+                                </h2>
+                                <div id="tip3" class="accordion-collapse collapse" data-bs-parent="#soilTips">
+                                    <div class="accordion-body">
+                                        Rotate crops to prevent nutrient depletion and reduce pest problems.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Schedule Soil Test -->
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="card-title mb-0">Schedule Soil Test</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="soilTestForm">
+                            <div class="mb-3">
+                                <label class="form-label">Select Test Type</label>
+                                <select class="form-select" required>
+                                    <option value="" selected disabled>Choose test type...</option>
+                                    <option>Basic Nutrient Analysis</option>
+                                    <option>Complete Soil Health Check</option>
+                                    <option>Heavy Metal Testing</option>
+                                    <option>Organic Matter Content</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Preferred Date</label>
+                                <input type="date" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Number of Samples</label>
+                                <input type="number" class="form-control" min="1" value="1" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Additional Notes (Optional)</label>
+                                <textarea class="form-control" rows="2" placeholder="Any specific requirements or concerns..."></textarea>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="homeVisit">
+                                <label class="form-check-label" for="homeVisit">
+                                    Request home collection
+                                </label>
+                            </div>
+                            <div id="addressField" class="mb-3" style="display: none;">
+                                <label class="form-label">Collection Address</label>
+                                <textarea class="form-control" rows="2" placeholder="Enter your complete address for sample collection"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-info w-100">
+                                <i class="fas fa-calendar-check me-2"></i>Schedule Test
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Map Modal -->
+<div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mapModalLabel">Nearest Soil Testing Centers</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center p-4 bg-light rounded mb-3">
+                    <i class="fas fa-map-marked-alt fa-3x text-primary mb-3"></i>
+                    <h5>Soil Testing Centers Map</h5>
+                    <p class="text-muted">Based on your location, we've found these testing centers near you</p>
+                    
+                    <div class="list-group mt-3">
+                        <div class="list-group-item">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">KVK Center - North District</h6>
+                                <small>5 km away</small>
+                            </div>
+                            <p class="mb-1">123 Agriculture Road, Farming District</p>
+                            <small class="text-muted">Open: Mon-Fri, 9AM-5PM</small>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">University Agricultural Lab</h6>
+                                <small>8 km away</small>
+                            </div>
+                            <p class="mb-1">456 Science Avenue, Knowledge City</p>
+                            <small class="text-muted">Open: Mon-Sat, 10AM-4PM</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">
+                    <i class="fas fa-directions me-2"></i>Get Directions
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const homeVisitCheckbox = document.getElementById('homeVisit');
+        const addressField = document.getElementById('addressField');
+        
+        homeVisitCheckbox.addEventListener('change', function() {
+            addressField.style.display = this.checked ? 'block' : 'none';
+        });
+        
+        const soilTestForm = document.getElementById('soilTestForm');
+        soilTestForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const testType = document.querySelector('select').value;
+            const testDate = document.querySelector('input[type="date"]').value;
+            
+            if (!testType || !testDate) {
+                alert('Please fill all required fields');
+                return;
+            }
+            
+            alert('Test scheduled successfully! You will receive a confirmation shortly.');
+            soilTestForm.reset();
+            addressField.style.display = 'none';
+        });
+
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        document.querySelector('input[type="date"]').setAttribute('min', today);
+    });
+</script>
+{% endblock %}

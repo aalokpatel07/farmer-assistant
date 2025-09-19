@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h2 class="mb-4">Crop Calendar</h2>
+        
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="card-title mb-0">Find Planting & Harvesting Seasons</h5>
+            </div>
+            <div class="card-body">
+                <form method="GET" action="{{ url_for('crop_calendar') }}" class="row g-3">
+                    <div class="col-md-6">
+                        <label for="crop" class="form-label">Select Crop</label>
+                        <select class="form-select" id="crop" name="crop">
+                            <option value="">-- Select Crop --</option>
+                            {% for crop, details in crops.items() %}
+                            <option value="{{ crop }}" {% if crop_type == crop %}selected{% endif %}>{{ crop|title }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label"> </label>
+                        <button type="submit" class="btn btn-success w-100">Get Calendar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        {% if crop_type %}
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="card-title mb-0">{{ crop_type|title }} - Planting & Harvesting Calendar</h5>
+            </div>
+            <div class="card-body">
+                {% if calendar_data %}
+                <div class="row">
+                    {% for season, details in calendar_data.items() %}
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-header bg-warning text-dark">
+                                <h6 class="card-title mb-0">{{ season }} Season</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="text-center p-3 bg-light rounded">
+                                            <i class="fas fa-seedling fa-2x text-success mb-2"></i>
+                                            <h6>Sowing Period</h6>
+                                            <p class="mb-0 fw-bold">{{ details.sowing }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="text-center p-3 bg-light rounded">
+                                            <i class="fas fa-harvest fa-2x text-success mb-2"></i>
+                                            <h6>Harvesting Period</h6>
+                                            <p class="mb-0 fw-bold">{{ details.harvesting }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="mt-4">
+                    <h5>Growing Tips for {{ crop_type|title }}</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0">Soil Requirements</h6>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="mb-0">
+                                        <li>Well-drained {{ ['loamy', 'clay loam', 'sandy loam']|random }} soil</li>
+                                        <li>pH between {{ ['6.0-7.0', '6.5-7.5', '5.5-6.5']|random }}</li>
+                                        <li>Rich in organic matter</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0">Climate Conditions</h6>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="mb-0">
+                                        <li>Temperature: {{ ['20-30°C', '25-35°C', '15-25°C']|random }}</li>
+                                        <li>Rainfall: {{ ['100-150 cm', '50-100 cm', '75-125 cm']|random }} annually</li>
+                                        <li>Sunlight: Full sun required</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
+                    <h5>No calendar data available for {{ crop_type|title }}</h5>
+                    <p class="text-muted">Please select another crop from the list.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <i class="fas fa-calendar-alt fa-4x text-muted mb-3"></i>
+            <h4>Select a Crop to View Calendar</h4>
+            <p class="text-muted">Choose a crop from the dropdown to see its planting and harvesting seasons.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="card-title mb-0">Popular Crops in India</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% for crop, details in crops.items() %}
+                    <div class="col-md-3 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-seedling fa-2x text-success mb-2"></i>
+                                <h6>{{ crop|title }}</h6>
+                                <small class="text-muted">
+                                    Season: {{ details.seasons|join(', ') }}<br>
+                                    States: {{ details.states|join(', ') }}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

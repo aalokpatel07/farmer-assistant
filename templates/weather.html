@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-4">Weather Forecast</h2>
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <form method="GET" action="{{ url_for('weather') }}" class="d-flex">
+            <input type="text" class="form-control me-2" name="location" 
+                   placeholder="Enter location (e.g., London,UK)" 
+                   value="{{ current_location if current_location else '' }}">
+            <button type="submit" class="btn btn-success">Get Weather</button>
+        </form>
+    </div>
+    <div class="col-md-6 text-end">
+        {% if current_location %}
+        <p class="text-muted">Showing weather for: <strong>{{ current_location }}</strong></p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card weather-card mb-4">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <h3 class="card-title">{{ weather.location }}</h3>
+                        <h1 class="display-1">{{ weather.temperature }}°C</h1>
+                        <p class="lead">{{ weather.description }}</p>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <i class="fas fa-{{ weather.icon }} fa-4x"></i>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <p><i class="fas fa-tint me-2"></i> Humidity: {{ weather.humidity }}%</p>
+                        <p><i class="fas fa-wind me-2"></i> Wind: {{ weather.wind_speed }} km/h</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><i class="fas fa-cloud-rain me-2"></i> Rainfall: {{ weather.rainfall }} mm</p>
+                        <p><i class="fas fa-calendar me-2"></i> Updated: Just now</p>
+                    </div>
+                </div>
+                {% if weather.get('is_mock') %}
+                <div class="alert alert-warning mt-3">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Using sample data. <a href="#api-setup">Set up weather API</a> for real-time data.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <h4 class="mb-3">3-Day Forecast</h4>
+        <div class="row">
+            {% for day in weather.forecast %}
+            <div class="col-md-4 mb-3">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">{{ day.day }}</h5>
+                        <i class="fas fa-{{ day.icon }} fa-2x text-primary my-3"></i>
+                        <p class="card-text">{{ day.condition }}</p>
+                        <div class="d-flex justify-content-around">
+                            <span><i class="fas fa-temperature-high me-1"></i> {{ day.high }}°C</span>
+                            <span><i class="fas fa-temperature-low me-1"></i> {{ day.low }}°C</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="card-title mb-0">Farming Recommendations</h5>
+            </div>
+            <div class="card-body">
+                {% if weather.condition == 'Sunny' or weather.condition == 'Clear' %}
+                <div class="alert alert-info">
+                    <strong>Ideal planting conditions</strong> with plenty of sunlight.
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Good day for sowing seeds</li>
+                    <li class="list-group-item">Perfect for fertilizer application</li>
+                    <li class="list-group-item">Ideal for harvesting dry crops</li>
+                </ul>
+                {% elif weather.condition == 'Rain' or weather.condition == 'Drizzle' %}
+                <div class="alert alert-info">
+                    <strong>Good for irrigation</strong> but avoid field work.
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Natural irrigation for crops</li>
+                    <li class="list-group-item">Avoid chemical applications</li>
+                    <li class="list-group-item">Good for water-intensive crops</li>
+                </ul>
+                {% else %}
+                <div class="alert alert-info">
+                    <strong>Moderate conditions</strong> suitable for most farming activities.
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Suitable for most farm work</li>
+                    <li class="list-group-item">Good conditions for transplanting</li>
+                    <li class="list-group-item">Monitor weather for changes</li>
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="card mt-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="card-title mb-0">Weather Tips</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled">
+                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Plan irrigation based on rainfall forecast</li>
+                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Apply fertilizers before expected rains</li>
+                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Harvest crops before heavy rainfall</li>
+                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Protect sensitive plants from strong winds</li>
+                </ul>
+            </div>
+        </div>
+        
+        {% if weather.get('is_mock') %}
+        <div class="card mt-4" id="api-setup">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="card-title mb-0">Set Up Real Weather Data</h5>
+            </div>
+            <div class="card-body">
+                <p>For real-time weather data:</p>
+                <ol>
+                    <li>Sign up at <a href="https://openweathermap.org/api" target="_blank">OpenWeatherMap</a></li>
+                    <li>Get your API key</li>
+                    <li>Create a <code>.env</code> file with:<br>
+                        <code>WEATHER_API_KEY=your_api_key_here</code>
+                    </li>
+                </ol>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

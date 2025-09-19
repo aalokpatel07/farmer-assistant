@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h2 class="mb-4">Government Schemes</h2>
+        
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>
+            These are some of the major government schemes available for farmers in India. 
+            Click on any scheme to learn more and apply.
+        </div>
+
+        <div class="row">
+            {% for scheme in schemes %}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="card-title mb-0">{{ scheme.name }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">{{ scheme.description }}</p>
+                        
+                        <div class="mb-3">
+                            <strong>Eligibility:</strong> {{ scheme.eligibility }}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <strong>Benefits:</strong>
+                            <ul class="mb-0">
+                                <li>Financial assistance and subsidies</li>
+                                <li>Technical guidance and support</li>
+                                <li>Insurance coverage</li>
+                                <li>Market linkage support</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="{{ scheme.link }}" target="_blank" class="btn btn-success">
+                                <i class="fas fa-external-link-alt me-2"></i>Apply Now
+                            </a>
+                            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#schemeModal{{ loop.index }}">
+                                <i class="fas fa-info-circle me-2"></i>Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scheme Modal -->
+            <div class="modal fade" id="schemeModal{{ loop.index }}" tabindex="-1">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header bg-success text-white">
+                            <h5 class="modal-title">{{ scheme.name }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h6>Scheme Details:</h6>
+                            <p>{{ scheme.description }}</p>
+                            
+                            <h6>Eligibility Criteria:</h6>
+                            <p>{{ scheme.eligibility }}</p>
+                            
+                            <h6>Documents Required:</h6>
+                            <ul>
+                                <li>Aadhaar Card</li>
+                                <li>Land ownership documents</li>
+                                <li>Bank account details</li>
+                                <li>Passport size photographs</li>
+                                <li>Mobile number linked with Aadhaar</li>
+                            </ul>
+                            
+                            <h6>Application Process:</h6>
+                            <ol>
+                                <li>Visit the official portal</li>
+                                <li>Register with your details</li>
+                                <li>Fill the application form</li>
+                                <li>Upload required documents</li>
+                                <li>Submit for verification</li>
+                            </ol>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="{{ scheme.link }}" target="_blank" class="btn btn-success">
+                                <i class="fas fa-external-link-alt me-2"></i>Visit Official Website
+                            </a>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="card-title mb-0">Additional Resources</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="text-center">
+                            <i class="fas fa-book fa-3x text-primary mb-2"></i>
+                            <h6>Scheme Guidelines</h6>
+                            <p>Download detailed guidelines for all schemes</p>
+                            <button class="btn btn-outline-primary btn-sm">Download PDF</button>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="text-center">
+                            <i class="fas fa-video fa-3x text-primary mb-2"></i>
+                            <h6>Video Tutorials</h6>
+                            <p>Watch how to apply for schemes online</p>
+                            <button class="btn btn-outline-primary btn-sm">Watch Videos</button>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="text-center">
+                            <i class="fas fa-phone-alt fa-3x text-primary mb-2"></i>
+                            <h6>Helpline</h6>
+                            <p>Get help with scheme applications</p>
+                            <button class="btn btn-outline-primary btn-sm">Call 1800-123-4567</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

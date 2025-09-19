@@ -1,0 +1,120 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="mb-4">Disease Alerts</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i> These disease alerts are based on current conditions in your region. 
+            Check regularly for updates.
+        </div>
+        
+        {% for alert in alerts %}
+        <div class="card disease-card disease-{{ alert.risk|lower }} mb-4">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4 class="card-title">{{ alert.crop }} - {{ alert.disease }}</h4>
+                    <span class="badge bg-{% if alert.risk == 'High' %}danger{% elif alert.risk == 'Medium' %}warning{% else %}success{% endif %}">
+                        {{ alert.risk }} Risk
+                    </span>
+                </div>
+                <p class="card-text">{{ alert.description }}</p>
+                <h6>Prevention Measures:</h6>
+                <p>{{ alert.prevention }}</p>
+                <p class="text-muted"><small>Season: {{ alert.season }}</small></p>
+                <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detailsModal{{ loop.index }}">
+                    View Details
+                </button>
+            </div>
+        </div>
+        
+        <div class="modal fade" id="detailsModal{{ loop.index }}" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{ alert.crop }} - {{ alert.disease }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p><strong>Risk Level:</strong> 
+                            <span class="badge bg-{% if alert.risk == 'High' %}danger{% elif alert.risk == 'Medium' %}warning{% else %}success{% endif %}">
+                                {{ alert.risk }}
+                            </span>
+                        </p>
+                        <p><strong>Description:</strong> {{ alert.description }}</p>
+                        <p><strong>Prevention:</strong> {{ alert.prevention }}</p>
+                        <p><strong>Season:</strong> {{ alert.season }}</p>
+                        <h6>Symptoms to Look For:</h6>
+                        <ul>
+                            <li>Brown spots on leaves</li>
+                            <li>Yellowing of foliage</li>
+                            <li>White powdery substance on leaves</li>
+                            <li>Stunted growth</li>
+                            <li>Wilting or drooping plants</li>
+                        </ul>
+                        <h6>Recommended Treatments:</h6>
+                        <ul>
+                            <li>Apply copper-based fungicide</li>
+                            <li>Remove infected plant parts</li>
+                            <li>Improve air circulation</li>
+                            <li>Use disease-resistant varieties</li>
+                            <li>Practice crop rotation</li>
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h5 class="card-title mb-0">Prevention Tips</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Practice crop rotation regularly</li>
+                    <li class="list-group-item">Use disease-resistant varieties</li>
+                    <li class="list-group-item">Maintain proper plant spacing</li>
+                    <li class="list-group-item">Avoid overhead watering</li>
+                    <li class="list-group-item">Remove and destroy infected plants</li>
+                    <li class="list-group-item">Keep tools clean and disinfected</li>
+                    <li class="list-group-item">Monitor plants regularly for signs of disease</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="card mt-4">
+            <div class="card-header bg-success text-white">
+                <h5 class="card-title mb-0">Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <a href="{{ url_for('shop') }}" class="btn btn-outline-success w-100 mb-2">
+                    <i class="fas fa-shopping-cart me-2"></i> Buy Preventive Products
+                </a>
+                <button class="btn btn-outline-primary w-100">
+                    <i class="fas fa-book me-2"></i> Disease Handbook
+                </button>
+            </div>
+        </div>
+        
+        <div class="card mt-4">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="card-title mb-0">Subscribe to Alerts</h5>
+            </div>
+            <div class="card-body">
+                <p>Get instant notifications about disease outbreaks in your area.</p>
+                <div class="d-grid">
+                    <button class="btn btn-warning">Subscribe to SMS Alerts</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

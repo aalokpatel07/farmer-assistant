@@ -1,0 +1,247 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h2 class="mb-4">Expert Advice</h2>
+        
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>
+            Connect with agricultural experts for personalized advice on farming techniques, 
+            crop management, pest control, and more.
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card mb-4">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="card-title mb-0">Available Experts</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- Expert 1 -->
+                            <div class="col-md-6 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <img src="https://via.placeholder.com/100x100/20c997/ffffff?text=DR" class="rounded-circle mb-3" alt="Expert">
+                                        <h6>Dr. Rajesh Kumar</h6>
+                                        <p class="text-muted mb-2">Soil Scientist</p>
+                                        <div class="expertise mb-2">
+                                            <span class="badge bg-light text-dark">Soil Health</span>
+                                            <span class="badge bg-light text-dark">Fertilizers</span>
+                                            <span class="badge bg-light text-dark">Organic Farming</span>
+                                        </div>
+                                        <div class="rating mb-2">
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star-half-alt text-warning"></i>
+                                            <span class="text-muted">(4.5)</span>
+                                        </div>
+                                        <p class="small text-muted">15+ years experience</p>
+                                    </div>
+                                    <div class="card-footer bg-transparent">
+                                        <button class="btn btn-success btn-sm w-100" data-bs-toggle="modal" data-bs-target="#expertModal1">
+                                            <i class="fas fa-comment me-2"></i>Consult Now
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Expert 2 -->
+                            <div class="col-md-6 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <img src="https://via.placeholder.com/100x100/20c997/ffffff?text=PS" class="rounded-circle mb-3" alt="Expert">
+                                        <h6>Prof. Sunita Sharma</h6>
+                                        <p class="text-muted mb-2">Crop Specialist</p>
+                                        <div class="expertise mb-2">
+                                            <span class="badge bg-light text-dark">Crop Rotation</span>
+                                            <span class="badge bg-light text-dark">Pest Control</span>
+                                            <span class="badge bg-light text-dark">Irrigation</span>
+                                        </div>
+                                        <div class="rating mb-2">
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <span class="text-muted">(5.0)</span>
+                                        </div>
+                                        <p class="small text-muted">20+ years experience</p>
+                                    </div>
+                                    <div class="card-footer bg-transparent">
+                                        <button class="btn btn-success btn-sm w-100" data-bs-toggle="modal" data-bs-target="#expertModal2">
+                                            <i class="fas fa-comment me-2"></i>Consult Now
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Expert 3 -->
+                            <div class="col-md-6 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <img src="https://via.placeholder.com/100x100/20c997/ffffff?text=AK" class="rounded-circle mb-3" alt="Expert">
+                                        <h6>Dr. Amit Khanna</h6>
+                                        <p class="text-muted mb-2">Horticulture Expert</p>
+                                        <div class="expertise mb-2">
+                                            <span class="badge bg-light text-dark">Fruits</span>
+                                            <span class="badge bg-light text-dark">Vegetables</span>
+                                            <span class="badge bg-light text-dark">Greenhouse</span>
+                                        </div>
+                                        <div class="rating mb-2">
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="far fa-star text-warning"></i>
+                                            <span class="text-muted">(4.0)</span>
+                                        </div>
+                                        <p class="small text-muted">12+ years experience</p>
+                                    </div>
+                                    <div class="card-footer bg-transparent">
+                                        <button class="btn btn-success btn-sm w-100" data-bs-toggle="modal" data-bs-target="#expertModal3">
+                                            <i class="fas fa-comment me-2"></i>Consult Now
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Expert 4 -->
+                            <div class="col-md-6 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body text-center">
+                                        <img src="https://via.placeholder.com/100x100/20c997/ffffff?text=VP" class="rounded-circle mb-3" alt="Expert">
+                                        <h6>Dr. Vijay Patel</h6>
+                                        <p class="text-muted mb-2">Agricultural Economist</p>
+                                        <div class="expertise mb-2">
+                                            <span class="badge bg-light text-dark">Market Trends</span>
+                                            <span class="badge bg-light text-dark">Cost Management</span>
+                                            <span class="badge bg-light text-dark">Loans & Schemes</span>
+                                        </div>
+                                        <div class="rating mb-2">
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star-half-alt text-warning"></i>
+                                            <span class="text-muted">(4.5)</span>
+                                        </div>
+                                        <p class="small text-muted">18+ years experience</p>
+                                    </div>
+                                    <div class="card-footer bg-transparent">
+                                        <button class="btn btn-success btn-sm w-100" data-bs-toggle="modal" data-bs-target="#expertModal4">
+                                            <i class="fas fa-comment me-2"></i>Consult Now
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <!-- Consultation Form -->
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0">Request Consultation</h5>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="mb-3">
+                                <label class="form-label">Select Expert</label>
+                                <select class="form-select">
+                                    <option>Dr. Rajesh Kumar - Soil Scientist</option>
+                                    <option>Prof. Sunita Sharma - Crop Specialist</option>
+                                    <option>Dr. Amit Khanna - Horticulture Expert</option>
+                                    <option>Dr. Vijay Patel - Agricultural Economist</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Your Query</label>
+                                <select class="form-select">
+                                    <option>Soil Health & Fertilizers</option>
+                                    <option>Crop Diseases & Pest Control</option>
+                                    <option>Irrigation & Water Management</option>
+                                    <option>Organic Farming Techniques</option>
+                                    <option>Market & Price Information</option>
+                                    <option>Government Schemes</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Detailed Description</label>
+                                <textarea class="form-control" rows="3" placeholder="Describe your issue in detail..."></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Preferred Contact Method</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="contactMethod" id="phone" checked>
+                                    <label class="form-check-label" for="phone">Phone Call</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="contactMethod" id="video">
+                                    <label class="form-check-label" for="video">Video Call</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="contactMethod" id="message">
+                                    <label class="form-check-label" for="message">Message</label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Submit Request</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Quick Advice -->
+                <div class="card">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="card-title mb-0">Quick Advice</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group">
+                            <a href="#" class="list-group-item list-group-item-action">
+                                <i class="fas fa-seedling me-2 text-success"></i>
+                                Best crops for your soil type
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                <i class="fas fa-bug me-2 text-danger"></i>
+                                Common pest problems & solutions
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                <i class="fas fa-tint me-2 text-primary"></i>
+                                Efficient irrigation methods
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                <i class="fas fa-recycle me-2 text-info"></i>
+                                Organic farming practices
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Expert Modals (Placeholder) -->
+<div class="modal fade" id="expertModal1" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title">Dr. Rajesh Kumar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Soil Scientist with 15+ years of experience...</p>
+                <!-- Add more details here -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Add similar modals for other experts -->
+
+{% endblock %}
